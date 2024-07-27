@@ -1,1 +1,16 @@
-/home/mushfiq/.config/nvim/coc-settings.json
+{
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+      "initializationOptions": {
+          "cache": {
+            "directory": "/tmp/ccls"
+          }
+        }
+    }
+  },
+  "snippets.ultisnips.pythonPrompt": false,
+  "snippets.userSnippetsDirectory": "~/.config/nvim/snippets"
+}
