@@ -1,4 +1,5 @@
 {
+  "python.pythonPath": "/home/mushfiq/miniconda3/envs/gtaf/bin/python",
   "languageserver": {
     "clangd": {
       "command": "clangd",

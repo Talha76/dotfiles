@@ -6,13 +6,29 @@ inoremap <F4> <ESC>:!xclip -o -sel clip > ~/cp/in.txt <CR><CR>
 nnoremap <F6> :!xclip -sel clip % <CR><CR>
 inoremap <F6> <ESC>:!xclip -sel clip % <CR><CR>
 
-autocmd filetype cpp nnoremap <F9>       :wa \| !make %:r && timeout 5s ./%:r < ~/cp/in.txt > ~/cp/out.txt<CR>
-autocmd filetype cpp inoremap <F9>  <ESC>:wa \| !make %:r && timeout 5s  ./%:r < ~/cp/in.txt > ~/cp/out.txt<CR>
-autocmd filetype cpp nnoremap <F10>      :wa \| !make clean && make %:r D=1 && ./%:r < ~/cp/in.txt > ~/cp/out.txt<CR>
-autocmd filetype cpp inoremap <F10> <ESC>:wa \| !make clean && make %:r D=1 && ./%:r < ~/cp/in.txt > ~/cp/out.txt<CR>
+function Run()
+  if &filetype == 'python'
+    execute '!timeout 1s python % < ~/cp/in.txt > ~/cp/out.txt'
+  elseif &filetype == 'cpp'
+    execute '!make %<; timeout 1s ./%< < ~/cp/in.txt > ~/cp/out.txt'
+  endif
+endfunction
 
-autocmd filetype python nnoremap <F9> :wa \| !python % < ~/cp/in.txt > ~/cp/out.txt<CR>
-autocmd filetype python inoremap <F9> <ESC>:wa \| !python % < ~/cp/in.txt > ~/cp/out.txt<CR>
+function RunDebug()
+  if &filetype == 'python'
+    execute '!timeout 1s python % < ~/cp/in.txt > ~/cp/out.txt --local'
+  elseif &filetype == 'cpp'
+    execute '!make clean; make %< D=1; timeout 1s ./%< < ~/cp/in.txt > ~/cp/out.txt'
+  endif
+endfunction
+
+inoremap <F9>  <ESC>:wa \| :call Run()<CR>
+inoremap <F10> <ESC>:wa \| :call RunDebug()<CR>
+nnoremap <F9>  <ESC>:wa \| :call Run()<CR>
+nnoremap <F10> <ESC>:wa \| :call RunDebug()<CR>
+
+inoremap jk <esc>
+inoremap <esc> <nop>
 
 " Auto Completion
 inoremap ( ()<left>
